@@ -12,10 +12,7 @@ async function apiFetch(path, options = {}) {
       ...(options.headers || {})
     }
   });
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(err);
-  }
+  if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
 
@@ -24,18 +21,19 @@ async function loadComments() {
     const data = await apiFetch('/rest/v1/comments?order=created_at.desc');
     renderComments(data);
   } catch (e) {
-    document.getElementById('comments-list').innerHTML = '<p style="color:red;">Failed to load comments: ' + e.message + '</p>';
+    document.getElementById('comments-list').innerHTML =
+      '<p style="color:red;">Failed to load comments: ' + e.message + '</p>';
     console.error(e);
   }
 }
 
 async function postComment() {
   const username = document.getElementById('username-input').value.trim();
-  const text = document.getElementById('comment-input').value.trim();
+  const text     = document.getElementById('comment-input').value.trim();
   const errorMsg = document.getElementById('error-msg');
 
   if (!username) { errorMsg.textContent = 'Please enter your name.'; return; }
-  if (!text) { errorMsg.textContent = 'Please write a comment.'; return; }
+  if (!text)     { errorMsg.textContent = 'Please write a comment.'; return; }
   errorMsg.textContent = '';
 
   try {
@@ -44,7 +42,6 @@ async function postComment() {
       body: JSON.stringify({ username, text, likes: 0 })
     });
     document.getElementById('comment-input').value = '';
-    loadComments();
   } catch (e) {
     errorMsg.textContent = 'Failed to post comment: ' + e.message;
     console.error(e);
@@ -57,10 +54,7 @@ async function likeComment(id, currentLikes) {
       method: 'PATCH',
       body: JSON.stringify({ likes: currentLikes + 1 })
     });
-    loadComments();
-  } catch (e) {
-    console.error(e);
-  }
+  } catch (e) { console.error(e); }
 }
 
 async function deleteComment(id) {
@@ -69,14 +63,11 @@ async function deleteComment(id) {
       method: 'DELETE',
       headers: { 'Prefer': '' }
     });
-    loadComments();
-  } catch (e) {
-    console.error(e);
-  }
+  } catch (e) { console.error(e); }
 }
 
 function renderComments(comments) {
-  const list = document.getElementById('comments-list');
+  const list    = document.getElementById('comments-list');
   const countEl = document.getElementById('comments-count');
 
   countEl.textContent = comments.length + ' comment(s)';
@@ -105,4 +96,40 @@ function escapeHtml(text) {
     .replace(/"/g, '&quot;');
 }
 
+function startRealtime() {
+  const wsUrl = 'wss://etpdeqsdkrinzrgmgcum.supabase.co/realtime/v1/websocket'
+    + '?apikey=' + SUPABASE_KEY + '&vsn=1.0.0';
+
+  const socket = new WebSocket(wsUrl);
+
+  socket.addEventListener('open', () => {
+    socket.send(JSON.stringify({
+      topic: 'realtime:public:comments',
+      event: 'phx_join',
+      payload: {},
+      ref: '1'
+    }));
+  });
+
+  socket.addEventListener('message', (event) => {
+    const msg = JSON.parse(event.data);
+    if (
+      msg.topic === 'realtime:public:comments' &&
+      msg.event !== 'phx_reply' &&
+      msg.event !== 'phx_close'
+    ) {
+      loadComments();
+    }
+  });
+
+  socket.addEventListener('close', () => {
+    setTimeout(startRealtime, 3000);
+  });
+
+  socket.addEventListener('error', (e) => {
+    console.error('WebSocket error:', e);
+  });
+}
+
 loadComments();
+startRealtime();
