@@ -1,51 +1,148 @@
+/* Merged CSS: Set 2 rules take priority where conflicts exist */
+
 body {
+    /* Set 2 Priority: Simple black background overrides Set 1's detailed theme */
     background-color: black;
+    
+    /* Set 1 Styling: Kept for layout and typography since Set 2 had none */
+    color: #00ff00; /* Fallback color, overridden by specific white rules below */
+    font-family: 'VT323', monospace;
+    font-size: 24px;
+    margin: 0;
+    padding: 40px;
+    line-height: 1.4;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center; /* Set 2: Center text by default */
 }
+
+.container {
+    /* Set 1 Styling: Kept (Set 2 had no .container rule) */
+    max-width: 800px;
+    margin: 0 auto;
+    border: 2px solid #00ff00;
+    padding: 20px;
+    box-shadow: 10px 10px 0px #333;
+    background-color: #050505;
+}
+
+/* Headings: Set 2 overrides color to white, Set 1 handles layout */
+h1, h2, h3 {
+    color: white; /* Set 2 Priority */
+    text-align: center; /* Set 2 Priority */
+    text-transform: uppercase; /* Set 1 Styling */
+    letter-spacing: 2px; /* Set 1 Styling */
+}
+
 h1 {
-    color: white;
-    text-align: center;
+    /* Set 1 specific styling */
+    border-bottom: 2px dashed #00ff00;
+    padding-bottom: 10px;
+    margin-top: 0;
 }
+
+h2, h3 {
+    /* Inherit center alignment from body, explicit color from Set 2 */
+    margin-top: 20px;
+}
+
+p, strong, small {
+    color: white; /* Set 2 Priority overrides Set 1's green/grey colors */
+    text-align: center; /* Set 2 Priority */
+}
+
+/* Paragraph specific overrides if needed */
 p {
-    color: white;
-    text-align: center;
+    margin-bottom: 15px;
 }
+
+/* Small text: Set 2 says white, Set 1 had grey. Set 2 wins. */
+small {
+    display: block;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+/* Divs: Set 2 overrides border to white and padding */
 div {
-    border: 2px solid white; padding: 10px;
+    border: 2px solid white; /* Set 2 Priority */
+    padding: 10px; /* Set 2 Priority */
+    /* Note: If you need the specific .container box shadow, keep .container separate as above */
 }
-h3 {
-    color: white;
-    text-align: center;
-}
-input {
-    display: block;
-    margin: 0 auto;
-}
+
+/* Inputs & Textareas: Set 2 handles layout/centering, Set 1 handles styling */
+input[type="text"], 
+input[type="file"], 
 textarea {
+    /* Set 2 Priority: Centered block layout */
     display: block;
     margin: 0 auto;
+    
+    /* Set 1 Styling: Kept for visual theme since Set 2 was minimal */
+    width: 100%;
+    max-width: 600px; /* Added to prevent it from being too wide on large screens */
+    background-color: #111;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+    outline: none;
 }
-input[type="submit"] {
-    display: block;
-    margin: 0 auto;
+
+input[type="text"]:focus, 
+textarea:focus {
+    background-color: #002200;
+    border-color: #fff;
+}
+
+/* Submit Button: Set 2 overrides background to white, Set 1 handles layout */
+input[type="submit"], 
+button {
+    /* Set 2 Priority: White background, black text, centered */
     background-color: white;
     color: black;
+    display: block;
+    margin: 0 auto;
     border: none;
-    padding: 10px 20px;
     cursor: pointer;
+    
+    /* Set 1 Styling: Font and size */
+    font-family: 'VT323', monospace;
+    font-size: 24px;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    width: auto; /* Set 2 logic implies auto width, Set 1 was 100% */
+    transition: background 0.2s;
 }
-strong {
-    color: white;
+
+button:hover {
+    background-color: #00ff00; /* Set 1 hover effect (Set 2 had none) */
+    box-shadow: 0 0 10px #00ff00;
 }
-small {
-    color: white;
-}
-h2 {
-    color: white;
-    text-align: center;
-}
-div{
-    border: 2px solid white; padding: 10px;
-}
+
+/* Specific ID from Set 2 */
 #comments-count {
-  color: white;
+    color: white;
+}
+
+#status {
+    /* Set 1 styling (Set 2 had none) */
+    margin-top: 20px;
+    text-align: center;
+    min-height: 30px;
+    color: white; /* Override to white per Set 2 theme */
+    font-weight: bold;
+}
+
+.note {
+    /* Set 1 styling (Set 2 had none) */
+    font-size: 16px;
+    color: #888;
+    margin-top: 30px;
+    border-top: 1px solid #333;
+    padding-top: 10px;
+    text-align: left;
 }
