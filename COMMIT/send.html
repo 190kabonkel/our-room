@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinci - Page Submission</title>
+    
+    <!-- Load VT323 Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+    <!-- Link External CSS -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Submit Your Page</h1>
+        <p class="subtitle">Upload your .zip archive to join the room.</p>
+
+        <form id="uploadForm">
+            <div class="form-group">
+                <label for="username">CODENAME:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your alias..." required autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="zipFile">YOUR ARCHIVE (.zip):</label>
+                <input type="file" id="zipFile" name="zipFile" accept=".zip" required>
+                <small>Must contain index.html</small>
+            </div>
+
+            <div class="form-group">
+                <label for="comments">NOTES FOR MODS:</label>
+                <textarea id="comments" name="comments" rows="3" placeholder="Any special instructions?"></textarea>
+            </div>
+
+            <button type="submit">TRANSMIT DATA</button>
+        </form>
+
+        <div id="status"></div>
+
+        <div class="note">
+            > SYSTEM STATUS: ONLINE<br>
+            > ENCRYPTION: NONE (RETRO STYLE)<br>
+            > WAIT TIME: ~24 HOURS
+        </div>
+    </div>
+
+    <!-- Link External JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>   
