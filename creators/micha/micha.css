@@ -1,6 +1,25 @@
+/* 1. Import VT323 at the VERY TOP of the file */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
 body {
     background-color: rgb(177, 208, 219);
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
+
+h1 {
+    /* 2. Apply the font */
+    font-family: 'VT323', monospace;
+    
+    color: rgb(0, 0, 0);
+    text-align: center;
+    margin-top: 20px;
+    
+    /* 3. Ensure crisp pixels (disable smoothing) */
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    
+    /* Optional: Set a size that looks good for pixel fonts */
+    font-size: 48px; 
+}   
